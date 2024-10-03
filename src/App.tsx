@@ -1,27 +1,24 @@
-import axios from "axios";
 import { useEffect, useState } from "react"
+import { fetchPages } from "./utils/fetchPages";
+import { WordPressPage } from "./utils/fetchPages.types";
 
 
 const App = () => {
-  const [posts, setPosts] = useState([])
+  const [workList, setWorkList] = useState<WordPressPage[]>([])
 
-  const fetchPosts = () => {
-    // Using axios to fetch the posts
-    axios
-      .get("http://nathansmithdeveloper.local/wp-json/wp/v2/pages")
-      .then((res) => {
-        // Saving the data to state
-        setPosts(res.data);
-      });
+
+  const fetchWorkHistory = async () => {
+    const pages = await fetchPages()
+    setWorkList(pages)
   }
 
 
   // Calling the function on page load
   useEffect(() => {
-    fetchPosts()
+    fetchWorkHistory()
   }, [])
 
-  console.log('posts', posts)
+  console.log('workList', workList)
 
   return (
     <>
@@ -29,6 +26,13 @@ const App = () => {
       <h2 className="text-2xl font-bold">Software Engineer</h2>
 
       <p className="text-3xl font-bold">I am a software engineer who loves to build things.</p>
+
+      <h3>Work history</h3>
+      {workList.map((page) => (
+        <div key={page.id}>
+          <h4>{page.title.rendered}</h4>
+        </div>
+      ))}
     </>
   )
 }
