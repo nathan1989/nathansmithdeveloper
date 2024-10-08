@@ -2,6 +2,11 @@ import { useEffect, useState } from "react"
 import { fetchPages } from "./utils/fetchPages";
 import { WordPressPage } from "./utils/fetchPages.types";
 import { fetchPage } from "./utils/fetchPage";
+import imgUrl from "./assets/images/logo.png";
+import Phone from "./assets/images/phone.svg";
+import Email from "./assets/images/email.svg";
+import LinkedIn from "./assets/images/linkedin.svg";
+import cv from "./assets/files/nathan-cv.pdf";
 
 
 const App = () => {
@@ -10,8 +15,7 @@ const App = () => {
   const [skills, setSkills] = useState<WordPressPage[]>([])
 
   const fetchIntro = async () => {
-    const page = await fetchPage(31)
-    setIntro(page)
+    setIntro(await fetchPage(31))
   }
 
   const fetchData = async () => {
@@ -30,6 +34,13 @@ const App = () => {
 
   return (
     <>
+      <nav className="flex items-center justify-between mb-40">
+          <img src={imgUrl} alt="Logo" />
+
+          <a href={cv} download className="px-7 py-3 md:px-9 md:py-4 bg-white font-medium md:font-semibold text-gray-700 text-md rounded-md hover:bg-gray-700 hover:text-white transition ease-linear duration-100">
+              Get my CV
+          </a>
+      </nav>
       <h1 className="text-4xl font-bold mb-1">Nathan Smith</h1>
       <h2 className="text-3xl font-bold mb-3">Software Engineer</h2>
 
@@ -50,6 +61,19 @@ const App = () => {
           {page?.content.rendered && <p className="mb-2" dangerouslySetInnerHTML={{__html: page.content.rendered}} />}
         </div>
       ))}
+      <div className="flex items-center justify-center space-x-8 mt-5">
+          <a href="tel:+64272141615" className="w-11 h-11 flex items-center justify-center p-2 rounded-full hover:bg-gray-200 transition ease-in-out duration-100">
+              <Phone />
+          </a>
+
+          <a href="mailto:nathansmithdeveloper@gmail.com" className="w-11 h-11 flex items-center justify-center p-2 rounded-full hover:bg-gray-200 transition ease-in-out duration-100">
+              <Email />
+          </a>
+
+          <a href="https://www.linkedin.com/in/nathan-smith-4061164a/" target="_blank" className="w-11 h-11 flex items-center justify-center p-2 rounded-full hover:bg-gray-200 transition ease-in-out duration-100">
+              <LinkedIn />
+          </a>
+      </div>
     </>
   )
 }
